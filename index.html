@@ -1,39 +1,41 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Nexus Weather | Professional Forecast Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="weather-box">
-        <input type="text" id="city_input" placeholder="Enter city name">
-        <button type="button" id="submit_btn">Search</button>
+<div class="weather-dashboard">
+    <!-- LEFT SIDE: search + current weather -->
+    <div class="left-panel">
+        <div class="weather-box">
+            <input type="text" placeholder="🌍 Enter city name, e.g., London, Tokyo" id="city_input" autocomplete="off">
+            <button type="button" id="submit_btn">🔍 Search</button>
+        </div>
+        <div id="weather-result">
+            <div class="current-card" style="text-align:center; padding: 2rem;">
+                <p style="color:#2c3e66;">✨ Enter a city to see real-time weather ✨</p>
+                <p style="font-size:0.85rem; margin-top:0.6rem;">📍 accurate temperature, humidity, wind & feels like</p>
+            </div>
+        </div>
     </div>
 
-    <div id="weather-result"></div>
-    <script src="script.js"></script>
+    <!-- RIGHT SIDE: 5-DAY FORECAST -->
+    <div class="right-panel">
+        <div class="forecast-title">
+            📅 5-Day Extended Forecast
+            <span style="font-size:0.8rem; font-weight:normal;">(daily peak & chance of rain)</span>
+        </div>
+        <div id="forecast-container">
+            <div class="message-card" style="background:#eef2ff; color:#164863;">🌤️ Search a city to get advanced 5‑day forecast data ✨</div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
- -->
-
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>weather app</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div class="weather-box">
-                <input type="text" placeholder="Enter city name" id="city_input">
-                <button type="button" id="submit_btn" onclick="input()">Search</button>
-        </div>
-        <div id="weather-result"></div>
-        <script src="script.js"></script>
-    </body>
-    </html>
