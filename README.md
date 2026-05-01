@@ -1,17 +1,41 @@
 # 🌦️ Weather Health App
 
-A simple and interactive weather application that displays real-time weather data based on user input.  
-This project focuses on combining weather information with a basic outdoor condition awareness concept.
+An advanced weather application that not only displays real-time weather data but also provides personalized health recommendations based on current environmental conditions.
 
 ---
 
 ## 🚀 Features
 
+### 🌍 Weather Information
 - 🔍 Search weather by city name
-- 🌡️ Real-time temperature display
-- 📍 Dynamic data using Weather API
-- 🎨 Clean and responsive UI
-- ⚡ Fast and lightweight application
+- 🌡️ Real-time temperature and "feels like" data
+- 💧 Humidity levels
+- 🌬️ Wind speed
+- ⏲️ Atmospheric pressure
+- 👁️ Visibility
+- 🌅 Sunrise & 🌇 Sunset timings
+- ☀️ UV Index
+- 🌫️ Air Quality Index (AQI)
+
+---
+
+### 🏥 Health Advisory System (Unique Feature 🔥)
+- Personalized health suggestions based on weather conditions
+- 🌡️ Heat risk analysis (Heat Index)
+- ☀️ UV exposure warnings
+- 💧 Daily hydration recommendation
+- 🧥 Clothing suggestions
+- 🏃 Activity planner (Morning / Afternoon / Evening / Night)
+- 🌧️ Rain risk insights
+- 💨 Wind condition analysis
+
+---
+
+### 📋 Smart Daily Guide
+- Safe sun exposure time
+- Water intake recommendation (liters & glasses)
+- Clothing & accessories suggestion
+- Outdoor safety alerts
 
 ---
 
@@ -20,17 +44,21 @@ This project focuses on combining weather information with a basic outdoor condi
 - HTML5
 - CSS3
 - JavaScript (Vanilla JS)
-- Weather API (fetch)
+- Weather API (Fetch API)
 
 ---
 
 ## ⚙️ Development Approach
 
-- Implemented API integration using JavaScript `fetch()`
-- Built dynamic UI to display city name and temperature
-- Designed layout with basic styling and responsiveness
-- Customized logic and structure based on project requirements
-- Used AI assistance for base structure and enhanced it with manual improvements
+- Implemented real-time weather data using API integration
+- Built dynamic UI to display city-based weather details
+- Designed a custom health advisory logic based on:
+  - Temperature
+  - UV Index
+  - Humidity
+  - Wind conditions
+- Created user-friendly layout with categorized insights
+- Used AI assistance for base structure and enhanced it with custom logic and features
 
 ---
 
@@ -42,7 +70,7 @@ https://mufassirsayyed03-star.github.io/weather_health_app/
 
 ## 📸 Screenshot
 
-![Weather App Screenshot](screenshot.png)
+![Weather Health App](screenshot.png)
 
 ---
 
