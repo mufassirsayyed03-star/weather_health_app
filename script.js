@@ -57,7 +57,6 @@ function getUVHealthAdvice(uvIndex) {
 
 // 2. 🌡️ Heat Index / Heat Stress
 function calculateHeatIndex(tempC, humidity) {
-    // Simplified heat index calculation
     const tempF = (tempC * 9/5) + 32;
     let hi = 0.5 * (tempF + 61.0 + ((tempF - 68.0) * 1.2) + (humidity * 0.094));
     if (hi < 80) return tempF;
@@ -84,7 +83,6 @@ function getHeatHealthAdvice(tempC, humidity) {
 
 // 3. ❄️ Cold Stress Safety
 function getColdHealthAdvice(tempC, windSpeed) {
-    // Wind chill effect
     let windChill = tempC;
     if (tempC <= 10 && windSpeed > 5) {
         windChill = 13.12 + 0.6215 * tempC - 11.37 * Math.pow(windSpeed, 0.16) + 0.3965 * tempC * Math.pow(windSpeed, 0.16);
@@ -174,7 +172,7 @@ function getClothingAdvice(tempC, rain, windSpeed) {
 
 // 7. 💧 Hydration Reminder
 function getHydrationAdvice(tempC, humidity) {
-    let baseWater = 2.5; // liters
+    let baseWater = 2.5;
     
     if (tempC < 20) baseWater = 2.2;
     else if (tempC < 30) baseWater = 2.8;
@@ -211,7 +209,6 @@ function renderHealthDashboard(data, uvIndex, lat, lon) {
     const rain = data.rain ? data.rain['1h'] || data.rain['3h'] || 0 : 0;
     const precipitation = rain;
     
-    // Get all health data
     const uvHealth = getUVHealthAdvice(uvIndex);
     const heatHealth = getHeatHealthAdvice(temp, humidity);
     const coldHealth = getColdHealthAdvice(temp, windSpeed);
@@ -228,7 +225,6 @@ function renderHealthDashboard(data, uvIndex, lat, lon) {
                 <p>Personalized recommendations based on today's weather</p>
             </div>
             
-            <!-- Simple Health Card (Top) -->
             <div class="simple-health-card">
                 <div class="simple-card-title">📋 Today's Quick Health Guide</div>
                 <div class="simple-card-content">
@@ -239,9 +235,7 @@ function renderHealthDashboard(data, uvIndex, lat, lon) {
                 </div>
             </div>
             
-            <!-- 8 Category Health Meter Grid -->
             <div class="health-grid">
-                <!-- 1. UV Index -->
                 <div class="health-card" style="border-left-color: ${uvHealth.color}">
                     <div class="health-card-title">☀️ UV Index: ${uvIndex || 'N/A'} ${uvHealth.emoji}</div>
                     <div class="health-risk" style="color: ${uvHealth.color}">Risk: ${uvHealth.risk}</div>
@@ -249,7 +243,6 @@ function renderHealthDashboard(data, uvIndex, lat, lon) {
                     <div class="health-advice">📝 ${uvHealth.advice}</div>
                 </div>
                 
-                <!-- 2. Heat Stress -->
                 <div class="health-card" style="border-left-color: ${heatHealth.color}">
                     <div class="health-card-title">🌡️ Heat Index: ${Math.round(calculateHeatIndex(temp, humidity))}°C ${heatHealth.emoji}</div>
                     <div class="health-risk" style="color: ${heatHealth.color}">Level: ${heatHealth.level}</div>
@@ -257,7 +250,6 @@ function renderHealthDashboard(data, uvIndex, lat, lon) {
                     <div class="health-advice">💧 ${heatHealth.waterIntake} water recommended</div>
                 </div>
                 
-                <!-- 3. Cold Stress -->
                 <div class="health-card" style="border-left-color: ${coldHealth.color}">
                     <div class="health-card-title">❄️ Cold Risk ${coldHealth.emoji}</div>
                     <div class="health-risk" style="color: ${coldHealth.color}">Level: ${coldHealth.level}</div>
@@ -265,7 +257,6 @@ function renderHealthDashboard(data, uvIndex, lat, lon) {
                     <div class="health-advice">🧣 ${coldHealth.clothing}</div>
                 </div>
                 
-                <!-- 4. Rain Health -->
                 <div class="health-card" style="border-left-color: ${rainHealth.color}">
                     <div class="health-card-title">🌧️ Rain: ${precipitation === 0 ? 'No rain' : precipitation.toFixed(1) + 'mm'} ${rainHealth.emoji}</div>
                     <div class="health-risk" style="color: ${rainHealth.color}">Risk: ${rainHealth.risk}</div>
@@ -273,28 +264,24 @@ function renderHealthDashboard(data, uvIndex, lat, lon) {
                     ${rainHealth.umbrellaLikely ? '<div class="health-advice">☂️ Umbrella recommended</div>' : ''}
                 </div>
                 
-                <!-- 5. Wind Safety -->
                 <div class="health-card" style="border-left-color: ${windHealth.color}">
                     <div class="health-card-title">💨 Wind: ${windSpeed} km/h ${windHealth.emoji}</div>
                     <div class="health-risk" style="color: ${windHealth.color}">Risk: ${windHealth.risk}</div>
                     <div class="health-advice">📝 ${windHealth.advice}</div>
                 </div>
                 
-                <!-- 6. Smart Clothing -->
                 <div class="health-card" style="border-left-color: #3b82f6">
                     <div class="health-card-title">👕 What to Wear Today</div>
                     <div class="health-advice"><strong>Clothing:</strong> ${clothing.clothing.join(', ')}</div>
                     <div class="health-advice"><strong>Accessories:</strong> ${clothing.accessories.length ? clothing.accessories.join(', ') : 'None needed'}</div>
                 </div>
                 
-                <!-- 7. Hydration -->
                 <div class="health-card" style="border-left-color: #06b6d4">
                     <div class="health-card-title">💧 Hydration Reminder</div>
                     <div class="health-advice"><strong>Target:</strong> ${hydration.liters} liters (${hydration.glasses} glasses)</div>
                     <div class="health-advice">📝 ${hydration.advice}</div>
                 </div>
                 
-                <!-- 8. Activity Planner -->
                 <div class="health-card" style="border-left-color: #8b5cf6">
                     <div class="health-card-title">📅 Activity Planner</div>
                     <div class="activity-grid">
@@ -310,7 +297,6 @@ function renderHealthDashboard(data, uvIndex, lat, lon) {
     `;
 }
 
-// Fetch UV Index
 async function fetchUVIndex(lat, lon) {
     try {
         const uvUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${api_key}`;
@@ -324,7 +310,6 @@ async function fetchUVIndex(lat, lon) {
     }
 }
 
-// Fetch AQI
 async function fetchAQI(lat, lon) {
     try {
         const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${api_key}`;
@@ -337,7 +322,6 @@ async function fetchAQI(lat, lon) {
     }
 }
 
-// Render Current Weather with Health Dashboard
 async function renderCurrentWeatherWithHealth(data) {
     const temp = data.main.temp;
     const feelsLike = data.main.feels_like;
@@ -351,14 +335,9 @@ async function renderCurrentWeatherWithHealth(data) {
     const lat = data.coord.lat;
     const lon = data.coord.lon;
     
-    // Fetch UV Index
     const uvIndex = await fetchUVIndex(lat, lon);
     currentUVData = uvIndex;
-    
-    // Fetch AQI for extra info
     const aqi = await fetchAQI(lat, lon);
-    
-    // Render Health Dashboard
     const healthHTML = renderHealthDashboard(data, uvIndex, lat, lon);
     
     return `
@@ -387,7 +366,6 @@ async function renderCurrentWeatherWithHealth(data) {
     `;
 }
 
-// Process Hourly Forecast
 function processHourlyForecast(forecastData) {
     const list = forecastData.list.slice(0, 8);
     return list.map(item => ({
@@ -402,7 +380,6 @@ function processHourlyForecast(forecastData) {
     }));
 }
 
-// Process Daily Forecast
 function processDailyForecast(forecastData) {
     const list = forecastData.list;
     const dailyMap = new Map();
@@ -458,7 +435,6 @@ function processDailyForecast(forecastData) {
     return dailyArray.slice(0, 5);
 }
 
-// Render Hourly Forecast
 function renderHourlyForecast(hourlyData) {
     if (!hourlyData || hourlyData.length === 0) {
         return `<div class="message-card">⚠️ Hourly forecast not available</div>`;
@@ -483,7 +459,6 @@ function renderHourlyForecast(hourlyData) {
     return html;
 }
 
-// Render Daily Forecast
 function renderDailyForecast(dailyForecast) {
     if (!dailyForecast || dailyForecast.length === 0) {
         return `<div class="message-card">⚠️ No extended forecast available.</div>`;
@@ -514,7 +489,6 @@ function renderDailyForecast(dailyForecast) {
     return html;
 }
 
-// Create Tab Switcher
 function createTabSwitcher() {
     const rightPanel = document.querySelector('.right-panel');
     const existingTabs = document.getElementById('forecast-tabs');
@@ -546,7 +520,6 @@ function createTabSwitcher() {
     });
 }
 
-// Main Weather Fetch
 async function fetchCompleteWeather(city) {
     if (!city.trim()) {
         resultDiv.innerHTML = `<div class="current-card"><p>❌ Please enter a city name</p></div>`;
@@ -589,32 +562,71 @@ async function fetchCompleteWeather(city) {
     }
 }
 
-// Geolocation
+// ==================== FIXED GEOLOCATION FUNCTION ====================
 function getUserLocation() {
-    resultDiv.innerHTML = `<div class="current-card" style="text-align:center;"><p>📍 Requesting location...</p></div>`;
+    // Show loading message
+    resultDiv.innerHTML = `<div class="current-card" style="text-align:center;">
+        <p>📍 Requesting location permission...</p>
+        <p style="font-size: 12px; color: #666;">Please allow location access when prompted</p>
+    </div>`;
     
     if ("geolocation" in navigator) {
+        // Request location with proper options
+        const options = {
+            enableHighAccuracy: true,  // Get precise location
+            timeout: 10000,            // 10 second timeout
+            maximumAge: 0              // Don't use cached location
+        };
+        
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
                 try {
                     const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`);
+                    if (!res.ok) throw new Error("Weather data not available");
                     const data = await res.json();
                     cityInput.value = data.name;
                     fetchCompleteWeather(data.name);
                 } catch (err) {
+                    console.error("Location weather error:", err);
                     initialDemoLoad();
                 }
             },
-            () => initialDemoLoad()
+            (error) => {
+                // Handle different error cases
+                console.error("Geolocation error:", error);
+                let errorMessage = "";
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMessage = "❌ Location permission denied. Please allow location access or search for a city manually.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMessage = "📍 Location information unavailable. Please search for a city manually.";
+                        break;
+                    case error.TIMEOUT:
+                        errorMessage = "⏰ Location request timed out. Please try again or search manually.";
+                        break;
+                    default:
+                        errorMessage = "⚠️ Could not get your location. Please search for a city manually.";
+                }
+                resultDiv.innerHTML = `<div class="current-card" style="background:#ffebee;">
+                    <p>${errorMessage}</p>
+                    <p style="margin-top: 10px;">🔍 Try searching: <strong>London, New York, Tokyo, Mumbai</strong></p>
+                </div>`;
+                initialDemoLoad();
+            },
+            options
         );
     } else {
+        resultDiv.innerHTML = `<div class="current-card" style="background:#ffebee;">
+            <p>🌐 Geolocation is not supported by your browser.</p>
+            <p>Please search for a city manually.</p>
+        </div>`;
         initialDemoLoad();
     }
 }
 
-// Add Voice Button
 function addVoiceButton() {
     const weatherBox = document.querySelector('.weather-box');
     if (weatherBox && !document.getElementById('voice-btn')) {
@@ -624,12 +636,33 @@ function addVoiceButton() {
         voiceBtn.innerHTML = '🎤';
         voiceBtn.title = 'Voice Search';
         voiceBtn.style.width = '50px';
+        voiceBtn.style.marginLeft = '10px';
+        voiceBtn.style.cursor = 'pointer';
         voiceBtn.onclick = startVoiceSearch;
         weatherBox.appendChild(voiceBtn);
     }
 }
 
-// Voice Search
+function addLocationButton() {
+    const weatherBox = document.querySelector('.weather-box');
+    if (weatherBox && !document.getElementById('location-btn')) {
+        const locationBtn = document.createElement('button');
+        locationBtn.id = 'location-btn';
+        locationBtn.type = 'button';
+        locationBtn.innerHTML = '📍';
+        locationBtn.title = 'Use My Location';
+        locationBtn.style.width = '50px';
+        locationBtn.style.marginLeft = '5px';
+        locationBtn.style.cursor = 'pointer';
+        locationBtn.style.background = '#4CAF50';
+        locationBtn.style.border = 'none';
+        locationBtn.style.borderRadius = '8px';
+        locationBtn.style.fontSize = '20px';
+        locationBtn.onclick = () => getUserLocation();
+        weatherBox.appendChild(locationBtn);
+    }
+}
+
 function startVoiceSearch() {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
         alert('❌ Voice search not supported in this browser');
@@ -658,7 +691,6 @@ function startVoiceSearch() {
     };
 }
 
-// Event Listeners
 function initializeEvents() {
     btn.addEventListener('click', () => {
         let cityVal = cityInput.value.trim();
@@ -676,11 +708,20 @@ function initializeEvents() {
 }
 
 function initialDemoLoad() {
-    cityInput.value = "";
-    fetchCompleteWeather("");
+    // Don't auto-fetch empty city - show a default or message
+    fetchCompleteWeather("New York");
 }
 
-// Start App
-initializeEvents();
-addVoiceButton();
-getUserLocation();
+// ==================== START APPLICATION ====================
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initializeEvents();
+    addVoiceButton();
+    addLocationButton();
+    
+    // Ask for location immediately when page loads
+    // This triggers the browser permission popup
+    setTimeout(() => {
+        getUserLocation();
+    }, 100);
+});
